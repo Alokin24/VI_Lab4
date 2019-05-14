@@ -702,3 +702,49 @@ class GraphProblem(Problem):
             return int(distance(locs[node.state], locs[self.goal]))
         else:
             return math.inf
+
+Pocetok = input()
+Kraj = input()
+Stanica = input()
+
+graf = UndirectedGraph({
+    'A' : {'B':7, 'C':9, 'F':14},
+    'B' : {'A':7, 'C':10, 'D':15},
+    'C' : {'A':9, 'B':10, 'D':11, 'F':2},
+    'D' : {'B':15, 'C':11, 'E':6},
+    'E' : {'D':6, 'F':9},
+    'F' : {'A':14, 'C':2, 'E':'9'}
+    })
+
+patekaVoGrafProblem = GraphProblem(Pocetok, Kraj, graf)
+
+prvaRuta = uniform_cost_search(patekaVoGrafProblem).solve()
+
+costForPrvaRuta = 0
+
+for i in range(0, len(prvaRuta)-1):
+    first = prvaRuta[i]
+    second = prvaRuta[i+1]
+    costForPrvaRuta += graf.get(first, second)
+
+if Stanica in prvaRuta:
+    costForPrvaRuta -= 9
+    print(costForPrvaRuta)
+else:
+    patekaVoGrafProblemOdPocetokDoStanica = GraphProblem(Pocetok, Stanica, graf)
+    patekaVoGrafProblemOdStanicaDoKraj = GraphProblem(Stanica, Kraj, graf)
+    vtoraRuta = uniform_cost_search(patekaVoGrafProblemOdPocetokDoStanica).solve() + uniform_cost_search(patekaVoGrafProblemOdStanicaDoKraj).solve[1:]
+
+    costForVtoraRuta = 0
+
+    for i in range(0, len(vtoraRuta)-1):
+        first = vtoraRuta[i]
+        second = vtoraRuta[i+1]
+        costForVtoraRuta += graf.get(first, second)
+
+    costForVtoraRuta -= 9
+
+    if prvaRuta < vtoraRuta:
+        print(prvaRuta)
+    else:
+        print(vtoraRuta)
