@@ -733,7 +733,7 @@ if Stanica in prvaRuta:
 else:
     patekaVoGrafProblemOdPocetokDoStanica = GraphProblem(Pocetok, Stanica, graf)
     patekaVoGrafProblemOdStanicaDoKraj = GraphProblem(Stanica, Kraj, graf)
-    vtoraRuta = uniform_cost_search(patekaVoGrafProblemOdPocetokDoStanica).solve() + uniform_cost_search(patekaVoGrafProblemOdStanicaDoKraj).solve[1:]
+    vtoraRuta = uniform_cost_search(patekaVoGrafProblemOdPocetokDoStanica).solve() + uniform_cost_search(patekaVoGrafProblemOdStanicaDoKraj).solution()
 
     costForVtoraRuta = 0
 
@@ -744,7 +744,7 @@ else:
 
     costForVtoraRuta -= 9
 
-    if prvaRuta < vtoraRuta:
-        print(prvaRuta)
+    if costForPrvaRuta < costForVtoraRuta or costForVtoraRuta < 0 :
+        print(costForPrvaRuta)
     else:
-        print(vtoraRuta)
+        print(costForVtoraRuta)
